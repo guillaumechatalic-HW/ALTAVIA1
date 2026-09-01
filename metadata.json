@@ -1,0 +1,6 @@
+{
+  "name": "Alta Via 1 - Dolomites Hiking Journal & Expedition Guide",
+  "description": "Carnet de voyage immersif et guide interactif de l'Alta Via 1 à travers les Dolomites en 8 étapes.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

@@ -1,0 +1,72 @@
+@import "tailwindcss";
+
+@layer base {
+  :root {
+    --color-primary: #173028;
+    --color-primary-container: #2d463e;
+    --color-on-primary-container: #98b3a9;
+    --color-secondary: #5a605b;
+    --color-secondary-container: #dee4de;
+    --color-surface: #fbf9f4;
+    --color-surface-container: #f0eee9;
+    --color-surface-container-high: #eae8e3;
+    --color-surface-container-low: #f5f3ee;
+    --color-tertiary: #561300;
+    --color-tertiary-container: #7c2000;
+    --color-on-tertiary-container: #ff8f6d;
+    --color-outline-variant: #c2c8c4;
+    --color-outline: #727975;
+    --color-on-surface: #1b1c19;
+    --color-on-surface-variant: #424845;
+  }
+
+  body {
+    font-family: "Source Serif 4", Georgia, serif;
+    background-color: #fbf9f4;
+    color: #1b1c19;
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    font-family: "Space Grotesk", sans-serif;
+  }
+}
+
+.font-headline {
+  font-family: "Space Grotesk", sans-serif;
+}
+
+.font-serif-body {
+  font-family: "Source Serif 4", Georgia, serif;
+}
+
+.font-ui {
+  font-family: "Work Sans", sans-serif;
+}
+
+/* Topographical and paper textures */
+.topo-bg {
+  background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 50 Q 25 25 50 50 T 100 50' fill='none' stroke='%23dee4de' stroke-width='1.2' opacity='0.35'/%3E%3Cpath d='M0 75 Q 25 50 50 75 T 100 75' fill='none' stroke='%23dee4de' stroke-width='1.2' opacity='0.35'/%3E%3Cpath d='M0 25 Q 25 0 50 25 T 100 25' fill='none' stroke='%23dee4de' stroke-width='1.2' opacity='0.35'/%3E%3C/svg%3E");
+}
+
+.topo-pattern {
+  background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23c2c8c4' fill-opacity='0.15' fill-rule='evenodd'/%3E%3C/svg%3E");
+}
+
+.image-depth {
+  box-shadow: inset 0 0 0 1px rgba(90, 96, 91, 0.2);
+}
+
+.progress-bar-stripe {
+  background: linear-gradient(90deg, #7c2000 0%, #ff8f6d 100%);
+}
+
+.drop-cap:first-letter {
+  font-family: "Space Grotesk", sans-serif;
+  font-size: 3.8rem;
+  line-height: 0.85;
+  float: left;
+  margin-right: 0.75rem;
+  margin-top: 0.2rem;
+  color: #173028;
+  font-weight: 700;
+}
