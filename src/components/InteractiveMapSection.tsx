@@ -39,6 +39,10 @@ export const InteractiveMapSection = ({
     return STAGES.reduce((sum, s) => sum + s.elevationGainM, 0);
   }, []);
 
+  const totalElevationLoss = useMemo(() => {
+    return STAGES.reduce((sum, s) => sum + s.elevationLossM, 0);
+  }, []);
+
   const highestPoint = useMemo(() => {
     return Math.max(...STAGES.map((s) => s.highestPointM));
   }, []);
@@ -400,6 +404,10 @@ export const InteractiveMapSection = ({
               <div className="bg-[#f0eee9] px-3 py-1.5 rounded-lg border border-[#c2c8c4]/40 text-[#7c2000]">
                 <span className="text-[10px] text-[#5a605b] uppercase block font-semibold">Dénivelé +</span>
                 <span className="font-bold font-mono">+{totalElevationGain.toLocaleString('fr-FR')} m</span>
+              </div>
+              <div className="bg-[#f0eee9] px-3 py-1.5 rounded-lg border border-[#c2c8c4]/40 text-[#0369a1]">
+                <span className="text-[10px] text-[#5a605b] uppercase block font-semibold">Dénivelé -</span>
+                <span className="font-bold font-mono">-{totalElevationLoss.toLocaleString('fr-FR')} m</span>
               </div>
               <div className="bg-[#0369a1]/10 px-3 py-1.5 rounded-lg border border-[#0369a1]/30 text-[#0369a1]">
                 <span className="text-[10px] text-[#0369a1]/80 uppercase block font-semibold">Point culminant</span>

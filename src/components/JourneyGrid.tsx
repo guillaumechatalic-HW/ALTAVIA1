@@ -1,6 +1,7 @@
 import { STAGES } from '../data/stagesData';
 import { CustomStagePhotos } from '../types/trail';
 import { Clock, Mountain, ArrowUpRight, Flame, Calendar } from 'lucide-react';
+import { formatImageUrl } from '../utils/imageUrl';
 
 interface JourneyGridProps {
   onSelectStage: (dayNumber: number) => void;
@@ -49,7 +50,7 @@ export const JourneyGrid = ({
               {/* Card Image Header */}
               <div className="relative aspect-4/3 overflow-hidden bg-[#dee4de]">
                 <img
-                  src={displayImage}
+                  src={formatImageUrl(displayImage)}
                   alt={stage.cardImageAlt}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />

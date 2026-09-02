@@ -1,5 +1,6 @@
 import { HERO_MAIN_IMAGE, STAGES } from '../data/stagesData';
 import { Mountain, Compass, ArrowDown, MapPin, Sparkles } from 'lucide-react';
+import { formatImageUrl } from '../utils/imageUrl';
 
 interface HeroSectionProps {
   onExploreClick: () => void;
@@ -55,7 +56,7 @@ export const HeroSection = ({
       <div className="relative rounded-3xl overflow-hidden shadow-2xl border border-[#c2c8c4]/50 image-depth bg-[#eae8e3]">
         <div className="aspect-16/9 sm:aspect-21/9 max-h-[520px] w-full relative">
           <img
-            src={HERO_MAIN_IMAGE}
+            src={formatImageUrl(HERO_MAIN_IMAGE)}
             alt="Le célèbre Passo Giau sous la pyramide de Ra Gusela"
             className="w-full h-full object-cover object-center"
           />

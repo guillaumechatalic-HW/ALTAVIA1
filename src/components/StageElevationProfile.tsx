@@ -82,7 +82,9 @@ export const StageElevationProfile: React.FC<StageElevationProfileProps> = ({
       };
     });
 
-    // Interpolate with subtle natural ridge waves between waypoints
+    const daySeed = (stageDay || 1) * 1.618;
+
+    // Interpolate with rugged, authentic Dolomite relief between waypoints
     for (let i = 0; i < mappedWps.length; i++) {
       const curr = mappedWps[i];
       densePoints.push({
@@ -96,14 +98,41 @@ export const StageElevationProfile: React.FC<StageElevationProfileProps> = ({
       if (i < mappedWps.length - 1) {
         const next = mappedWps[i + 1];
         const distDiff = next.distanceFromStart - curr.distanceFromStart;
-        const steps = Math.max(3, Math.min(12, Math.round(distDiff * 3)));
+        if (distDiff <= 0.001) continue;
+
+        // High resolution steps for crisp, natural rock and ridge detail (~30-50m per point)
+        const steps = Math.max(16, Math.min(90, Math.round(distDiff * 28)));
+        const altDiff = next.altitude - curr.altitude;
+        const slope = altDiff / distDiff; // m/km
 
         for (let s = 1; s < steps; s++) {
           const t = s / steps;
           const interpKm = curr.distanceFromStart + t * distDiff;
-          const interpAlt = curr.altitude + t * (next.altitude - curr.altitude);
-          const variance = Math.sin(t * Math.PI) * (distDiff > 2 ? (i % 2 === 0 ? 12 : -8) : 0);
-          const finalAlt = Math.max(floorMin, Math.min(ceilMax, interpAlt + variance));
+
+          // Smooth baseline slope between waypoints
+          const smoothT = t * t * (3 - 2 * t);
+          const baseAlt = curr.altitude + smoothT * altDiff;
+
+          // Boundary dampener: strictly 0 at waypoints, peaking naturally in between
+          const envelope = Math.sin(t * Math.PI);
+
+          // 1. Macro alpine terrain (crêtes secondaires, combes et épaules: 12-28m)
+          const f1 = Math.sin(interpKm * 2.8 + i * 1.9 + daySeed) * Math.cos(interpKm * 1.4 + i);
+          let macroAmp = Math.min(26.0, Math.max(8.0, distDiff * 6.0));
+          if (Math.abs(slope) > 160) {
+            macroAmp *= 0.65; // Dampen slightly on very steep direct ascents/descents
+          }
+
+          // 2. Intermediate rock benches & terraces (ressauts rocheux dolomitiques: 6-14m)
+          const f2 = Math.sin(interpKm * 7.4 + i * 2.7) * Math.cos(interpKm * 4.2 + daySeed);
+          const medAmp = Math.min(13.0, Math.max(4.0, distDiff * 3.2));
+
+          // 3. Micro jaggedness & scree terrain (pierriers, caillasse, crans d'éboulis: 2-5m)
+          const f3 = (Math.sin(interpKm * 21.0 + i) + 0.65 * Math.cos(interpKm * 43.0 + daySeed)) * 0.7;
+          const microAmp = 3.8;
+
+          const relief = envelope * (f1 * macroAmp + f2 * medAmp + f3 * microAmp);
+          const finalAlt = Math.max(floorMin + 5, Math.min(ceilMax - 10, baseAlt + relief));
 
           const x = chartLeft + (interpKm / totalKm) * chartW;
           const altNorm = (finalAlt - floorMin) / (ceilMax - floorMin);
@@ -112,8 +141,8 @@ export const StageElevationProfile: React.FC<StageElevationProfileProps> = ({
           densePoints.push({
             x: Math.max(chartLeft, Math.min(chartRight, x)),
             y: Math.max(chartTop, Math.min(chartBottom, y)),
-            km: interpKm,
-            alt: finalAlt,
+            km: Math.round(interpKm * 100) / 100,
+            alt: Math.round(finalAlt),
           });
         }
       }
@@ -210,6 +239,12 @@ export const StageElevationProfile: React.FC<StageElevationProfileProps> = ({
             <div className="bg-[#f0eee9] px-3 py-1.5 rounded-lg border border-[#c2c8c4]/40 text-[#7c2000]">
               <span className="text-[10px] text-[#5a605b] uppercase block font-semibold">Dénivelé +</span>
               <span className="font-bold font-mono">+{elevationGainM} m</span>
+            </div>
+          )}
+          {elevationLossM !== undefined && (
+            <div className="bg-[#f0eee9] px-3 py-1.5 rounded-lg border border-[#c2c8c4]/40 text-[#0369a1]">
+              <span className="text-[10px] text-[#5a605b] uppercase block font-semibold">Dénivelé -</span>
+              <span className="font-bold font-mono">-{elevationLossM} m</span>
             </div>
           )}
           {highestPointM !== undefined && (
@@ -321,8 +356,14 @@ export const StageElevationProfile: React.FC<StageElevationProfileProps> = ({
               profilePoints.length <= 6;
 
             const isLast = idx === profilePoints.length - 1 || wp.type === 'finish';
-            const isNearRight = wp.svgX > 820;
-            const isVertical = isLast || isNearRight;
+            const nextWp = profilePoints[idx + 1];
+            // Only turn vertical if it's the finish point, or if it's right before the finish and tightly packed (< 75px)
+            const isNearFinish = Boolean(
+              nextWp &&
+              (nextWp.type === 'finish' || idx + 1 === profilePoints.length - 1) &&
+              Math.abs(nextWp.svgX - wp.svgX) < 75
+            );
+            const isVertical = isLast || isNearFinish;
             const labelX = wp.svgX;
             const labelY = wp.svgY - 14;
 

@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import { X, ChevronLeft, ChevronRight, MapPin, ZoomIn } from 'lucide-react';
 import { GalleryPhoto } from '../types/trail';
+import { formatImageUrl } from '../utils/imageUrl';
 
 interface PhotoLightboxModalProps {
   photo: GalleryPhoto | null;
@@ -81,7 +82,7 @@ export const PhotoLightboxModal = ({
       <div className="max-w-5xl max-h-[92vh] flex flex-col items-center justify-center">
         <div className="relative overflow-hidden rounded-lg shadow-2xl flex items-center justify-center">
           <img
-            src={photo.url}
+            src={formatImageUrl(photo.url)}
             alt={photo.alt}
             className="max-h-[70vh] sm:max-h-[74vh] w-auto object-contain rounded-lg border border-white/10"
           />

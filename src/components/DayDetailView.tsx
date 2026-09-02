@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Stage, GalleryPhoto, CustomStagePhotos } from '../types/trail';
 import confetti from 'canvas-confetti';
 import { StageElevationProfile } from './StageElevationProfile';
+import { formatImageUrl } from '../utils/imageUrl';
 import {
   ArrowLeft,
   ArrowRight,
@@ -130,7 +131,7 @@ export const DayDetailView = ({
       <div className="relative rounded-2xl overflow-hidden shadow-xl border border-[#c2c8c4]/40 mb-10 image-depth">
         <div className="aspect-16/9 md:aspect-21/9 max-h-[480px] w-full relative">
           <img
-            src={heroImage}
+            src={formatImageUrl(heroImage)}
             alt={stage.heroImageAlt}
             className="w-full h-full object-cover"
           />
@@ -168,7 +169,7 @@ export const DayDetailView = ({
           <div key={`img-intro-${idx}`} className="my-6 rounded-xl overflow-hidden border border-[#c2c8c4]/40 shadow-xs">
             <div className={`${img.aspect === 'tall' ? 'aspect-4/3 max-h-[420px]' : 'aspect-16/9 max-h-[380px]'} w-full bg-[#f0eee9]`}>
               <img
-                src={img.url}
+                src={formatImageUrl(img.url)}
                 alt={img.alt}
                 className="w-full h-full object-cover cursor-pointer hover:opacity-95 transition-opacity"
                 onClick={() => onOpenLightbox(img, galleryPhotos)}
@@ -186,7 +187,7 @@ export const DayDetailView = ({
           <div className="my-8 rounded-xl overflow-hidden border border-[#c2c8c4]/40 shadow-md">
             <div className="aspect-16/9 max-h-[380px] w-full">
               <img
-                src={middleImage}
+                src={formatImageUrl(middleImage)}
                 alt={stage.middleImageAlt}
                 className="w-full h-full object-cover cursor-pointer hover:opacity-95 transition-opacity"
                 onClick={() =>
@@ -217,7 +218,7 @@ export const DayDetailView = ({
           <div key={`img-sec-${idx}`} className="my-6 rounded-xl overflow-hidden border border-[#c2c8c4]/40 shadow-xs">
             <div className={`${img.aspect === 'tall' ? 'aspect-4/3 max-h-[420px]' : 'aspect-16/9 max-h-[380px]'} w-full bg-[#f0eee9]`}>
               <img
-                src={img.url}
+                src={formatImageUrl(img.url)}
                 alt={img.alt}
                 className="w-full h-full object-cover cursor-pointer hover:opacity-95 transition-opacity"
                 onClick={() => onOpenLightbox(img, galleryPhotos)}
@@ -241,7 +242,7 @@ export const DayDetailView = ({
           <div key={`img-third-${idx}`} className="my-6 rounded-xl overflow-hidden border border-[#c2c8c4]/40 shadow-xs">
             <div className={`${img.aspect === 'tall' ? 'aspect-4/3 max-h-[420px]' : 'aspect-16/9 max-h-[380px]'} w-full bg-[#f0eee9]`}>
               <img
-                src={img.url}
+                src={formatImageUrl(img.url)}
                 alt={img.alt}
                 className="w-full h-full object-cover cursor-pointer hover:opacity-95 transition-opacity"
                 onClick={() => onOpenLightbox(img, galleryPhotos)}
@@ -276,7 +277,7 @@ export const DayDetailView = ({
           <div key={`img-fourth-${idx}`} className="my-6 rounded-xl overflow-hidden border border-[#c2c8c4]/40 shadow-xs">
             <div className={`${img.aspect === 'tall' ? 'aspect-4/3 max-h-[420px]' : 'aspect-16/9 max-h-[380px]'} w-full bg-[#f0eee9]`}>
               <img
-                src={img.url}
+                src={formatImageUrl(img.url)}
                 alt={img.alt}
                 className="w-full h-full object-cover cursor-pointer hover:opacity-95 transition-opacity"
                 onClick={() => onOpenLightbox(img, galleryPhotos)}
@@ -300,7 +301,7 @@ export const DayDetailView = ({
           <div key={`img-fifth-${idx}`} className="my-6 rounded-xl overflow-hidden border border-[#c2c8c4]/40 shadow-xs">
             <div className={`${img.aspect === 'tall' ? 'aspect-4/3 max-h-[420px]' : 'aspect-16/9 max-h-[380px]'} w-full bg-[#f0eee9]`}>
               <img
-                src={img.url}
+                src={formatImageUrl(img.url)}
                 alt={img.alt}
                 className="w-full h-full object-cover cursor-pointer hover:opacity-95 transition-opacity"
                 onClick={() => onOpenLightbox(img, galleryPhotos)}
@@ -340,7 +341,7 @@ export const DayDetailView = ({
                 className="group relative rounded-xl overflow-hidden cursor-pointer aspect-4/3 bg-[#f0eee9] border border-[#c2c8c4]/40 shadow-xs hover:shadow-md transition-shadow"
               >
                 <img
-                  src={photo.url}
+                  src={formatImageUrl(photo.url)}
                   alt={photo.alt}
                   className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
                 />
@@ -363,12 +364,30 @@ export const DayDetailView = ({
       {/* Refuge Feature Card */}
       <section className="bg-[#f0eee9] border border-[#c2c8c4]/50 rounded-2xl p-6 sm:p-8 mb-12 shadow-sm">
         <div className="flex flex-col md:flex-row gap-6 items-start">
-          <div className="w-full md:w-1/3 rounded-xl overflow-hidden shadow-md aspect-4/3 relative">
+          <div className="w-full md:w-1/3 rounded-xl overflow-hidden shadow-md aspect-4/3 relative bg-[#eae8e3]">
             <img
-              src={stage.rifugio.imageUrl}
+              src={formatImageUrl(stage.rifugio.imageUrl)}
               alt={stage.rifugio.name}
               referrerPolicy="no-referrer"
-              className="w-full h-full object-cover"
+              className="w-full h-full object-cover cursor-pointer hover:opacity-95 transition-opacity"
+              onClick={() =>
+                onOpenLightbox(
+                  {
+                    url: formatImageUrl(stage.rifugio.imageUrl),
+                    alt: stage.rifugio.name,
+                    caption: `${stage.rifugio.name} (${stage.rifugio.altitude} m) - ${stage.rifugio.massif}`,
+                    location: stage.rifugio.name,
+                  },
+                  galleryPhotos
+                )
+              }
+              onError={(e) => {
+                const target = e.currentTarget;
+                if (!target.dataset.triedFallback) {
+                  target.dataset.triedFallback = 'true';
+                  target.src = formatImageUrl(heroImage);
+                }
+              }}
             />
             <div className="absolute top-2 left-2 bg-[#173028]/85 backdrop-blur-xs text-white text-[10px] font-ui px-2 py-0.5 rounded-full font-bold">
               {stage.rifugio.altitude} m
